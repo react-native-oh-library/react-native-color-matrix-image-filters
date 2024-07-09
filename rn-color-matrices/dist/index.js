@@ -1,7 +1,7 @@
 import { Platform, processColor } from 'react-native';
 import clamp from 'clamp';
-const bias = 1;
-const biasRev = 255;
+const bias = (Platform.OS === 'ios'|| Platform.OS === 'harmony') ? 1 : 255
+const biasRev = (Platform.OS === 'ios'|| Platform.OS === 'harmony') ? 255 : 1
 const colorToRGB = (color) => [
     ((color >> 16) & 0xFF) / 255,
     ((color >> 8) & 0xFF) / 255,
