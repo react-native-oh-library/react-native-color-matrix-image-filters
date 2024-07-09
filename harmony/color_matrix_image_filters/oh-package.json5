@@ -7,7 +7,7 @@
   "name": "@react-native-oh-tpl/react-native-color-matrix-image-filters",
   "description": "Various color matrix based image filters for HarmonyOS",
   "main": "index.ets",
-  "version": "6.2.5-0.0.2",
+  "version": "6.2.5-0.0.3",
   "dependencies": {
     "@rnoh/react-native-openharmony": "file:../react_native_openharmony"
   }
