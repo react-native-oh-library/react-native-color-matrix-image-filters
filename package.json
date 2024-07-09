@@ -46,7 +46,8 @@
   "dependencies": {
     "clamp": "^1.0.1",
     "concat-color-matrices": "^1.0.0",
-    "ts-tiny-invariant": "^2.0.4"
+    "ts-tiny-invariant": "^2.0.4",
+    "react-native-color-matrix-image-filters": "^6.0.5"
   },
   "scripts": {
     "preversion": "npm run lint -- --fix && npm run type-coverage && npm run build",
