@@ -50,21 +50,31 @@ namespace rnoh {
         }
     }
 
-    void  ColorMatrixImageFiltersComponentInstance::finalizeUpdates(){
-        for(auto child : getChildren()){
-            if (child->getComponentName() == "Image") {
-               auto imageComponentInstance = std::dynamic_pointer_cast<rnoh::ImageComponentInstance>(child);
-               std::vector<ArkUI_NumberValue> value = {};
-               for(auto matrix : this->m_matrix) {
-                  value.push_back({.f32 = static_cast<float>(matrix)});  
-               }
-               ArkUI_AttributeItem item = {value.data(),static_cast<int32_t>(value.size())};
-               NativeNodeApi::getInstance()->setAttribute(imageComponentInstance->getLocalRootArkUINode().getArkUINodeHandle(), NODE_IMAGE_COLOR_FILTER,&item);
-           }
+void ColorMatrixImageFiltersComponentInstance::finalizeUpdates() {
+    std::vector<ComponentInstance::Shared> childNodes = findImageNode(getChildren());
+    for (auto childNode : childNodes) {
+        std::vector<ArkUI_NumberValue> value = {};
+        for (auto matrix : this->m_matrix) {
+            value.push_back({.f32 = static_cast<float>(matrix)});
         }
+        ArkUI_AttributeItem item = {value.data(), static_cast<int32_t>(value.size())};
+        NativeNodeApi::getInstance()->setAttribute(childNode->getLocalRootArkUINode().getArkUINodeHandle(),
+                                                   NODE_IMAGE_COLOR_FILTER, &item);
     }
+}
 
-
- 
+std::vector<ComponentInstance::Shared>
+ColorMatrixImageFiltersComponentInstance::findImageNode(const std::vector<ComponentInstance::Shared> &childNodes) {
+    std::vector<ComponentInstance::Shared> result;
+    for (const auto &childNode : childNodes) {
+        if (OH_ArkUI_NodeUtils_GetNodeType(childNode->getLocalRootArkUINode().getArkUINodeHandle()) ==
+            ARKUI_NODE_IMAGE) {
+            result.push_back(childNode);
+        }
+        auto nodeResults = findImageNode(childNode->getChildren());
+        result.insert(result.end(), nodeResults.begin(), nodeResults.end());
+    }
+    return result;
+}
 
 } // namespace rnoh/

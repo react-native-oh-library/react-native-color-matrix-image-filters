@@ -49,5 +49,7 @@ namespace rnoh {
 
         void finalizeUpdates() override;
     
+        std::vector<ComponentInstance::Shared> findImageNode(const std::vector<ComponentInstance::Shared>& childNodes);
+    
      };
 } // namespace rnoh
